@@ -1,7 +1,14 @@
 from django.contrib.auth.models import User
 from .models import Movie
+from .models import Actor
+from .models import Award
+from .models import Producent
 from .models import Festival
 from .models import Comment
+from .forms import MovieForm
+from .forms import ActorForm
+from .forms import AwardForm
+from .forms import ProducentForm
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import (
@@ -73,3 +80,45 @@ def forum_view(request):
 def movie_view(request):
     return render(request, template_name='')
 
+def movie_form_view(request):
+    if request.method == 'POST':
+        form = MovieForm(request.POST)
+        if form.is_valid():
+            movie = form.save()
+            movie.save()
+            return HttpResponseRedirect('/')
+    form = MovieForm()
+    return render(request, 'movie_form.html', {'form': form})
+
+def movie_actor_view(request):
+    if request.method == 'POST':
+        form = ActorForm(request.POST)
+        if form.is_valid():
+            actor = form.save()
+            actor.save()
+            return HttpResponseRedirect('/')
+    form = ActorForm()
+    return render(request, 'actor_form.html', {'form': form})
+
+def movie_award_view(request):
+    if request.method == 'POST':
+        form = AwardForm(request.POST)
+        if form.is_valid():
+            award = form.save()
+            award.save()
+            return HttpResponseRedirect('/')
+    form = AwardForm()
+    return render(request, 'award_form.html', {'form': form})
+
+def movie_producent_view(request):
+    if request.method == 'POST':
+        form = ProducentForm(request.POST)
+        if form.is_valid():
+            producent = form.save()
+            producent.save()
+            return HttpResponseRedirect('/')
+    form = ProducentForm()
+    return render(request, 'producent_form.html', {'form': form})
+
+def profile_view(request):
+    return render(request, template_name='profile.html')

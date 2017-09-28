@@ -20,6 +20,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <script>
         function login_alert() {
             alert("You have to log in first!");
@@ -45,7 +49,16 @@
         {% endif %}
       <li><a href="about">About Us</a></li>
 {% if user.is_authenticated %}
-      <li> <a href="dodaj">Додај Филм</a></li>
+      <ul class="nav navbar-nav">
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Add New <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="add-movie">Add Movie</a></li>
+            <li><a href="add-actor">Add Actor</a></li>
+            <li><a href="add-producent">Add Producent</a></li>
+            <li><a href="add-award">Add Award</a></li>
+            </ul>
+        </li>
+    </ul>
 {% endif %}
 
     </ul>
@@ -66,6 +79,9 @@
 {% if user.is_authenticated %}
 
     <ul class="nav navbar-nav navbar-right">
+
+<li><a href="profile"><span class="glyphicon glyphicon-user-"></span> Profile</a></li>
+
       <li><a href="logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
     </ul>
 {% else %}
@@ -179,22 +195,77 @@
 
 -->
 
+{% if user.is_authenticated %}
 <hr>
-<div class="container">
-
-<div class="panel panel-default">
-    <div class="panel-heading"><h3>25 Upcoming Streaming Shows to Know</h3></div>
-    <div class="panel-body">
+    <div class="container">
         <div class="row">
-            <img src="../static/images/upcoming-1.jpg" alt="upcoming" style="width:45%; height: 400px; margin-left:60px;">
-            <img src="../static/images/upcoming-2.jpg" alt="upcoming" style="width:40%; height: 400px">
+
+            <div class="container">
+
+                <div class="col-sm-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                           <h3>Upcoming Festivals</h3>
+                        </div>
+
+                        <div class="panel-body">
+                            {% for f in festivals %}
+                                <b>Name:</b> <{{ f.name }}<br>
+                                <b>Description:</b> {{ f.description }}<br>
+                                <b>Start date:</b> {{ f.start_date}}<br>
+                                <b>End date:</b> {{ f.end_date}}<br>
+                                <b>Added by user:</b> {{ f.user }}<br><br>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                           <h3>Upcoming Movies</h3>
+                        </div>
+
+                        <div class="panel-body">
+                            {% for f in festivals %}
+                                {% for m in f.movies.all %}
+                                    <b>Title:</b> {{ m.title}} <br>
+                                    <b>Description:</b> {{m.description}} <br>
+                                    <b>Length:</b> {{ m.length }} <br>
+                                    <b>Voice:</b> {{ m.votes }} <br> <br>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+
+
         </div>
     </div>
-    <div class="panel-footer"></div>
-  </div>
 
-</div>
+{% else %}
+    <hr>
+    <div class="container">
 
+    <div class="panel panel-default">
+        <div class="panel-heading"><h3>25 Upcoming Streaming Shows to Know</h3></div>
+        <div class="panel-body">
+            <div class="row">
+                <img src="../static/images/upcoming-1.jpg" alt="upcoming" style="width:45%; height: 400px; margin-left:60px;">
+                <img src="../static/images/upcoming-2.jpg" alt="upcoming" style="width:40%; height: 400px">
+            </div>
+        </div>
+        <div class="panel-footer"></div>
+      </div>
+
+    </div>
+ {% endif %}
 
 </body>
 </html>

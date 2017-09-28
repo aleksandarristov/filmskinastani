@@ -20,6 +20,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <script>
         function login_alert() {
             alert("You have to log in first!");
@@ -37,17 +41,25 @@
 -->
     <ul class="nav navbar-nav">
       <li><a class="navbar-brand" href="/"> Movie Events</a></li>
-      <li class="active"><a href="/">Home</a></li>
+      <li><a href="/">Home</a></li>
         {% if user.is_authenticated %}
         <li><a href="forum">Forum</a></li>
         {% else %}
         <li><a href="login" onclick="login_alert()">Forum</a></li>
         {% endif %}
       <li><a href="about">About Us</a></li>
-        {% if user.is_authenticated %}
-
-      <li> <a href="add-movie">Add Movie</a></li>
-    {% endif %}
+{% if user.is_authenticated %}
+        <ul class="nav navbar-nav">
+        <li class="dropdown active"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Add New <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="add-movie">Add Movie</a></li>
+            <li><a href="add-actor">Add Actor</a></li>
+            <li><a href="add-producent">Add Producent</a></li>
+            <li><a href="add-award">Add Award</a></li>
+            </ul>
+        </li>
+    </ul>
+{% endif %}
 
     </ul>
 
@@ -68,7 +80,6 @@
 
     <ul class="nav navbar-nav navbar-right">
         <li ><a href="profile"><span class="glyphicon glyphicon-user-"></span> Profile</a></li>
-
       <li><a href="logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
     </ul>
 {% else %}
@@ -82,9 +93,28 @@
 
 </nav>
 
+ <form method="POST" class="post-form">
+     <div class="container">
+         <div class="row">
+             <div class="col-md-6 col-md-offset-2">
+             <h4>Add Award:</h4>
+
+                 <table class="table table-hover">
+                    <tbody>
+                        <tr>
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                        </tr>
+                            <button type="submit" class="save btn btn-primary">Save</button>
+                    </tbody>
+                 </table>
+
+             </div>
+
+         </div>
+     </div>
 
 
-
+ </form>
 
 </body>
-</html>
